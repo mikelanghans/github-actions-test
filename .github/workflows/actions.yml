@@ -1,6 +1,10 @@
 name: Actions Workflow
 
-on: [push, pull_request]
+on: 
+  repository_dispatch:
+    types: [build]
+  pull_request: 
+    types: [closed, assigned, opened, reopened]
 jobs:
   run-github-actions:
     runs-on: ubuntu-latest
@@ -9,7 +13,7 @@ jobs:
         run: |
            pwd
            ls -a
-      - name: Checkout
+      - name: Checkout  
         uses: actions/checkout@v1
       - name: List Files After Checkout
         run: |
@@ -23,6 +27,6 @@ jobs:
         id: greet
         uses: actions/hello-world-javascript-action@v1
         with: 
-          who-to-greet: Mike
+          who-to-greet: Michael
       - name: Log Greeting time
         run: echo "${{ steps.greet.outputs.time}}"
